@@ -1,10 +1,10 @@
+import {studentRouter} from "./Routers/StudentRouter";
 import express from "express";
-import {userRouter} from "./routers/userRouter";
-import bodyParser from 'body-parser';
+import bodyParser from 'body-parser'
 
 const app = express();
 
-app.use(userRouter);
+app.use(studentRouter);
 app.use(bodyParser.json());
 
 app.listen(3000, () => {
