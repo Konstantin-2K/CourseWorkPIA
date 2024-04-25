@@ -12,8 +12,12 @@ export class StudentController {
         res.send(users);
     }
 
+    async getStudent(id: number) {
+        return await this.studentModel.getStudent(id);
+    }
+
     async insertStudent(req: Request, res: Response) {
-        const userToInsert = await this.studentModel.getAllStudents();
-        res.send(`Successfully inserted user: '${req.body.username}'`);
+        const userToInsert = await this.studentModel.insertStudent(req.body);
+        res.send(`Successfully inserted student: '${req.body.faculty_number}'`);
     }
 }

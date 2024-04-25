@@ -11,9 +11,17 @@ const getAllStudentsHandler = async (req: Request, res: Response) => {
     await studentController.getAllStudents(req, res);
 }
 
+const getStudentHandler = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const user: any = await studentController.getStudent(Number(id));
+    res.send(user[0]);
+}
+
+
 const insertStudentHandler = async (req: Request, res: Response) => {
     await studentController.insertStudent(req, res);
 }
 
-studentRouter.get("/api/users", getAllStudentsHandler)
-studentRouter.post("/api/users", insertStudentHandler)
+studentRouter.get("/api/students", getAllStudentsHandler)
+studentRouter.get("/api/students/:id", getStudentHandler)
+studentRouter.post("/api/students", insertStudentHandler)
