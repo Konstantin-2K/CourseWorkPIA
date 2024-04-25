@@ -5,7 +5,7 @@ export const Students = () => {
     const [students, setStudents] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const filteredStudents = students.filter(student =>
+    const filteredStudents = students.filter((student: any) =>
         student.faculty_number.includes(searchTerm)
     );
 
@@ -31,7 +31,7 @@ export const Students = () => {
                     onChange={e => setSearchTerm(e.target.value)}
                 />
                 <ul className="student-list">
-                    {filteredStudents.map((student, index) => (
+                    {filteredStudents.map((student: any, index) => (
                         <li key={index} className="student-item">
                             <Link to={`/students/${student.id}`}>
                             <div>

@@ -19,6 +19,11 @@ export const Layout = () => {
                 </ul>
             </nav>
             <Outlet/>
+            <footer className="footer">
+                <div className="footer-content">
+                    <p>&copy; 2024 Your University Name. All rights reserved.</p>
+                </div>
+            </footer>
         </>
     )
 }

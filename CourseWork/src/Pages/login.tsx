@@ -1,44 +1,31 @@
-import { useForm, SubmitHandler } from "react-hook-form"
+import {useState} from "react";
 
-type Inputs = {
-    facultyNumber: string
-    password: string
-}
+const Login = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-export const Login = () => {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm<Inputs>()
-
-
-
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-
-    }
-
-
-    console.log(watch("facultyNumber")) // watch input value by passing the name of it
-
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        // Handle form submission (authentication logic)
+        console.log('Login submitted:', { username, password });
+    };
 
     return (
-        /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-        <form onSubmit={handleSubmit(onSubmit)}>
-            {/* register your input into the hook by invoking the "register" function */}
-            <label>Faculty number</label>
-            <input placeholder={"12345678"} {...register("facultyNumber")} />
+        <div>
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Username or Email:</label>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    );
+};
 
-
-            {/* include validation with required or other standard HTML validation rules */}
-            <label>Password</label>
-            <input {...register("password", {required: true})} />
-            {/* errors will return when field validation fails  */}
-            {errors.password && <span>Password is required</span>}
-
-
-            <input id={"submit"} type="submit"/>
-        </form>
-    )
-}
+export default Login;
