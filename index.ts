@@ -1,4 +1,4 @@
-import {studentRouter} from "./Routers/StudentRouter";
+import {userRouter} from "./Routers/UserRouter";
 import express from "express";
 import bodyParser from 'body-parser'
 
@@ -9,7 +9,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(studentRouter);
+app.use(userRouter);
 app.use(bodyParser.json());
 
 app.listen(3000, () => {

@@ -7,8 +7,15 @@ import {Students} from './Pages/students.tsx';
 import {Student} from "./Pages/student.tsx";
 import Contacts from "./Pages/contacts.tsx";
 import Login from "./Pages/login.tsx";
+import {useState} from "react";
 
 function App() {
+    const [token, setToken] = useState();
+
+    if(!token) {
+        return <Login setToken={setToken} />
+    }
+
     return (
         <div>
             <BrowserRouter>
