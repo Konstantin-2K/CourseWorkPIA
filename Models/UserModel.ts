@@ -21,6 +21,11 @@ export class UserModel extends DB {
         return rows;
     }
 
+    async getByEmail(email: any) {
+        const [rows] = await this.connection.query(`SELECT * FROM users WHERE email = ?`, [email])
+        return rows;
+    }
+
     async insertStudent(body: any) {
         const data = body;
         const facultyNumber = data.faculty_number;

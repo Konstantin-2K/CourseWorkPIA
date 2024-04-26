@@ -25,6 +25,10 @@ export class UserController {
         return await this.userModel.getTeacher(id);
     }
 
+    async getByEmail(email: string) {
+        return await this.userModel.getByEmail(email);
+    }
+
     async insertStudent(req: Request, res: Response) {
         const userToInsert = await this.userModel.insertStudent(req.body);
         res.send(`Successfully inserted student: '${req.body.faculty_number}'`);

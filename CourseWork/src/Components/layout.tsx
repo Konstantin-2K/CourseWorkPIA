@@ -1,27 +1,34 @@
 import {Link, Outlet } from "react-router-dom"
 
+
+
 export const Layout = () => {
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+
     return (
         <>
             <nav className="navbar">
                 <div>
-                    <span>contact@calium.edu</span>
-                    <span style={{marginLeft: '10px'}}>+1-2476-254-254</span>
+                    {user.first_name ? (
+                        <span>Welcome, {user.first_name} {user.last_name}!</span>
+                    ) : (
+                        <span>contact@calium.edu</span>
+                    )}
                 </div>
                 <ul>
                     <li><Link to={"/"}>Home</Link></li>
-                    <li><Link to={"/students"}>Students</Link></li>
+                    {(user.role == "ADMIN" || user.role == "TEACHER") && <li><Link to={"/students"}>Students</Link></li>}
                     <li><Link to={"/contacts"}>Contacts</Link></li>
                     <li><Link to={"/profile"}>Profile</Link></li>
-                    <li><Link to={"/login"}>Login</Link></li>
-                    <li><Link to={"/register"}>Register</Link></li>
-                    <li><Link to={"/"}>Logout</Link></li>
+                    {!user.first_name && <li><Link to={"/login"}>Login</Link></li>}
+                    {!user.first_name && <li><Link to={"/register"}>Register</Link></li>}
+                    <li><Link to={"/logout"}>Logout</Link></li>
                 </ul>
             </nav>
             <Outlet/>
             <footer className="footer">
                 <div className="footer-content">
-                    <p>&copy; 2024 Your University Name. All rights reserved.</p>
+                    <p>&copy; 2024 Calium. All rights reserved.</p>
                 </div>
             </footer>
         </>

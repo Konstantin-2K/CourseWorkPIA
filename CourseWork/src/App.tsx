@@ -7,15 +7,12 @@ import {Students} from './Pages/students.tsx';
 import {Student} from "./Pages/student.tsx";
 import Contacts from "./Pages/contacts.tsx";
 import Login from "./Pages/login.tsx";
-import {useState} from "react";
+import Logout from "./Pages/logout.tsx";
+import Profile from "./Pages/profile.tsx";
+
+
 
 function App() {
-    const [token, setToken] = useState();
-
-    if(!token) {
-        return <Login setToken={setToken} />
-    }
-
     return (
         <div>
             <BrowserRouter>
@@ -27,6 +24,8 @@ function App() {
                         <Route path = {"/students"} element={<Students/>}/>
                         <Route path = {"/students/:id"} element={<Student/>}/>
                         <Route path = {"/contacts"} element={<Contacts/>}/>
+                        <Route path = {"/logout"} element={<Logout/>}/>
+                        <Route path = {"/profile"} element={<Profile/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>
