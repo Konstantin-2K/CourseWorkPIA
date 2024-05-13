@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 export const Student = () => {
     const {id} = useParams();
     const [student, setStudent] = useState([] as any);
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+    const navigation = useNavigate();
 
     useEffect(() => {
         const getStudents = async () => {
@@ -15,6 +17,12 @@ export const Student = () => {
         getStudents().then();
     }, []);
 
+    const deleteStudent = (id: number) => {
+        fetch(`http://localhost:3000/api/students/${id}`, {
+            method: "DELETE"
+        })
+        navigation("/students");
+    }
 
     return (
         <>
@@ -65,6 +73,7 @@ export const Student = () => {
                         <label>Specialty:</label>
                         <span>{student.specialty}</span>
                     </div>
+                    {(user.role == "TEACHER" || user.role == "ADMIN") && <button className="delButton" onClick={() => deleteStudent(student.id)}>Delete student</button>}
                 </div>
             </div>
         </>

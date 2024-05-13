@@ -66,12 +66,26 @@ const insertTeacherHandler = async (req: Request, res: Response) => {
     await userController.insertTeacher(req, res);
 }
 
+const deleteStudentHandler = async (req: Request, res: Response)=> {
+    const { id } = req.params;
+    await userController.deleteStudent(Number(id));
+    res.send(`Successfully deleted student: '${id}'`);
+}
+
+const deleteTeacherHandler = async (req: Request, res: Response)=> {
+    const { id } = req.params;
+    await userController.deleteTeacher(Number(id));
+    res.send(`Successfully deleted teacher: '${id}'`);
+}
+
 userRouter.get("/api/students", getAllStudentsHandler)
 userRouter.get("/api/students/:id", getStudentHandler)
 userRouter.post("/api/students", insertStudentHandler)
+userRouter.delete("/api/students/:id", deleteStudentHandler)
 
 userRouter.get("/api/teachers", getAllTeachersHandler)
 userRouter.get("/api/teachers/:id", getTeacherHandler)
 userRouter.post("/api/teachers", insertTeacherHandler)
+userRouter.delete("/api/teachers/:id", deleteTeacherHandler)
 
 userRouter.post("/api/login", getByEmailHandler);

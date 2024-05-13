@@ -142,6 +142,19 @@ button {
     border-radius: 5px;
 }
 
+.list li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list li button {
+    margin: 7px;
+}
+
+.list li p {
+    margin-left: 10px;
+}
+
 .news-container {
     color: #1a1a1a;
     padding: 20px;
@@ -341,4 +354,9 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.delButton {
+    height: 36px;
+    margin-top: 23px;
 }

@@ -11,13 +11,14 @@ export const Teachers = () => {
 
     useEffect(() => {
         const getTeachers = async () => {
-            const result = await fetch("http://localhost:3000/api/teachers")
+            const result = await fetch("http://localhost:3000/api/teachers");
             const payload = await result.json();
             console.log(payload);
             setStudents(payload);
         };
         getTeachers().then();
     }, [])
+
 
 
     return (

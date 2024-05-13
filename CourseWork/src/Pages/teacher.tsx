@@ -1,20 +1,27 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 export const Teacher = () => {
     const {id} = useParams();
-    const [student, setStudent] = useState([] as any);
+    const [teacher, setTeacher] = useState([] as any);
+    const navigation = useNavigate();
 
     useEffect(() => {
-        const getStudents = async () => {
-            const result = await fetch(`http://localhost:3000/api/students/${id}`)
+        const getTeachers = async () => {
+            const result = await fetch(`http://localhost:3000/api/teachers/${id}`)
             const payload = await result.json();
             console.log(payload);
-            setStudent(payload);
+            setTeacher(payload);
         };
-        getStudents().then();
+        getTeachers().then();
     }, []);
 
+    const deleteTeacher = (id: number) => {
+        fetch(`http://localhost:3000/api/teachers/${id}`, {
+            method: "DELETE"
+        })
+        navigation("/teachers")
+    }
 
     return (
         <>
@@ -22,49 +29,42 @@ export const Teacher = () => {
                 <h2>Personal information</h2>
                 <div className="profile-info">
                     <div className="info-item">
-                        <label>Faculty Number:</label>
-                        <span>{student.faculty_number}</span>
-                    </div>
-                    <div className="info-item">
-                        <label>Year Enrolled:</label>
-                        <span>{student.year_enrolled}</span>
-                    </div>
-                    <div className="info-item">
                         <label>Personal Identification Number:</label>
-                        <span>{student.personal_identification_number}</span>
+                        <span>{teacher.personal_identification_number}</span>
                     </div>
                     <div className="info-item">
                         <label>Gender:</label>
-                        <span>{student.gender}</span>
+                        <span>{teacher.gender}</span>
                     </div>
                     <div className="info-item">
                         <label>Birth Date:</label>
-                        <span>{student.birth_date}</span>
+                        <span>{teacher.birth_date}</span>
                     </div>
                     <div className="info-item">
                         <label>Phone Number:</label>
-                        <span>{student.phone_number}</span>
+                        <span>{teacher.phone_number}</span>
                     </div>
                     <div className="info-item">
                         <label>Full Name:</label>
-                        <span>{student.first_name} {student.given_name} {student.last_name}</span>
+                        <span>{teacher.first_name} {teacher.given_name} {teacher.last_name}</span>
                     </div>
                     <div className="info-item">
                         <label>Email:</label>
-                        <span>{student.email}</span>
+                        <span>{teacher.email}</span>
                     </div>
                     <div className="info-item">
                         <label>Address:</label>
-                        <span>{student.address}</span>
+                        <span>{teacher.address}</span>
                     </div>
                     <div className="info-item">
                         <label>Degree:</label>
-                        <span>{student.degree}</span>
+                        <span>{teacher.degree}</span>
                     </div>
                     <div className="info-item">
                         <label>Specialty:</label>
-                        <span>{student.specialty}</span>
+                        <span>{teacher.specialty}</span>
                     </div>
+                    <button className="delButton" onClick={() => deleteTeacher(teacher.id)}>Delete teacher</button>
                 </div>
             </div>
         </>

@@ -38,4 +38,12 @@ export class UserController {
         const userToInsert = await this.userModel.insertTeacher(req.body);
         res.send(`Successfully inserted teacher: '${req.body.teacher_number}'`);
     }
+
+    async deleteStudent(id: number) {
+        const userToDelete = await this.userModel.deleteStudent(id);
+    }
+
+    async deleteTeacher(id: number) {
+        const userToDelete = await this.userModel.deleteTeacher(id);
+    }
 }

@@ -26,6 +26,17 @@ export class UserModel extends DB {
         return rows;
     }
 
+    async deleteStudent(id: number) {
+        const [rows] = await this.connection.query(`DELETE FROM users WHERE id = ?`, [id])
+        return rows;
+    }
+
+    async deleteTeacher(id: number) {
+        const [rows] = await this.connection.query(`DELETE FROM users WHERE id = ?`, [id])
+        return rows;
+    }
+
+
     async insertStudent(body: any) {
         const data = body;
         const facultyNumber = data.faculty_number;
@@ -68,4 +79,6 @@ export class UserModel extends DB {
                                                                                                 '${phoneNumber}', '${firstName}', '${email}', '${address}', NULL, NULL, '${lastName}', '${givenName}', '${password}', '${role}', '${teacherNumber}')`);
         return rows;
     }
+
+
 }
