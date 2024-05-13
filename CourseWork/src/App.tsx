@@ -9,6 +9,8 @@ import Contacts from "./Pages/contacts.tsx";
 import Login from "./Pages/login.tsx";
 import Logout from "./Pages/logout.tsx";
 import Profile from "./Pages/profile.tsx";
+import {Teachers} from "./Pages/teachers.tsx";
+import {Teacher} from "./Pages/teacher.tsx";
 
 
 
@@ -22,7 +24,9 @@ function App() {
                         <Route path = {"/login"} element={<Login/>}/>
                         <Route path = {"/"} element={<HomePage/>}/>
                         <Route path = {"/students"} element={<Students/>}/>
+                        <Route path = {"/teachers"} element={<Teachers/>}/>
                         <Route path = {"/students/:id"} element={<Student/>}/>
+                        <Route path = {"/teachers/:id"} element={<Teacher/>}/>
                         <Route path = {"/contacts"} element={<Contacts/>}/>
                         <Route path = {"/logout"} element={<Logout/>}/>
                         <Route path = {"/profile"} element={<Profile/>}/>

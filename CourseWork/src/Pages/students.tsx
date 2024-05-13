@@ -22,7 +22,7 @@ export const Students = () => {
 
     return (
         <>
-            <div className="student-list-container">
+            <div className="list-container">
                 <h2>All Students</h2>
                 <input
                     type="text"
@@ -30,9 +30,9 @@ export const Students = () => {
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
                 />
-                <ul className="student-list">
+                <ul className="list">
                     {filteredStudents.map((student: any, index) => (
-                        <li key={index} className="student-item">
+                        <li key={index} className="item">
                             <Link to={`/students/${student.id}`}>
                             <div>
                                 <strong>{student.first_name} {student.last_name}</strong>
