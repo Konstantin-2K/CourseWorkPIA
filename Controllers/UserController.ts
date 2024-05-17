@@ -46,4 +46,8 @@ export class UserController {
     async deleteTeacher(id: number) {
         const userToDelete = await this.userModel.deleteTeacher(id);
     }
+
+    async editStudent(req: Request, res: Response, id: number) {
+        await this.userModel.editStudent(req.body, id);
+    }
 }

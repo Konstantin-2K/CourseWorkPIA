@@ -1,3 +1,1 @@
-add grades and absences
-edit users and grades
-only admins should be able to edit users
+connect absences backend with the frontend at students page like the grades

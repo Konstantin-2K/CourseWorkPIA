@@ -27,7 +27,9 @@ export class UserModel extends DB {
     }
 
     async deleteStudent(id: number) {
-        const [rows] = await this.connection.query(`DELETE FROM users WHERE id = ?`, [id])
+        await this.connection.query(`DELETE FROM absences WHERE student_id = ?`, [id])
+        await this.connection.query(`DELETE FROM grades WHERE student_id = ?`, [id]);
+        const [rows] = await this.connection.query(`DELETE FROM users WHERE id = ?`, [id]);
         return rows;
     }
 
@@ -35,7 +37,6 @@ export class UserModel extends DB {
         const [rows] = await this.connection.query(`DELETE FROM users WHERE id = ?`, [id])
         return rows;
     }
-
 
     async insertStudent(body: any) {
         const data = body;
@@ -80,5 +81,38 @@ export class UserModel extends DB {
         return rows;
     }
 
-
+    async editStudent(body:any, id:number) {
+        const data = body;
+        const facultyNumber = data.faculty_number;
+        const yearEnrolled = data.year_enrolled;
+        const PIN = data.personal_identification_number;
+        const gender = data.gender;
+        const birthDate = data.birth_date;
+        const phoneNumber = data.phone_number;
+        const firstName = data.first_name;
+        const email = data.email;
+        const address = data.address;
+        const degree = data.degree;
+        const specialty = data.specialty;
+        const lastName = data.last_name;
+        const givenName = data.given_name;
+        const [rows] = await this.connection.query(`UPDATE users 
+    SET 
+        personal_identification_number = '${PIN}',
+        faculty_number = '${facultyNumber}',
+        year_enrolled = '${yearEnrolled}',
+        gender = '${gender}',
+        birth_date = '${birthDate}',
+        phone_number = '${phoneNumber}',
+        first_name = '${firstName}',
+        email = '${email}',
+        address = '${address}',
+        degree = '${degree}',
+        specialty = '${specialty}',
+        last_name = '${lastName}',
+        given_name = '${givenName}'
+    WHERE 
+        id = '${id}';`)
+        return rows;
+    }
 }

@@ -96,6 +96,7 @@ nav a:hover {
     align-items: center;
     padding: 2rem;
     color: #1a1a1a;
+    height: 76.2vh;
 }
 
 h1 {
@@ -132,7 +133,7 @@ button {
     background-color: rgb(17, 72, 61);
     border: none;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -223,7 +224,7 @@ form #submit {
 }
 
 .list-container {
-    max-width: 700px;
+    max-width: 800px;
     margin: 30px auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -361,6 +362,11 @@ a:hover {
     margin-top: 23px;
 }
 
+.editButton {
+    height: 36px;
+    margin-top: 10px;
+}
+
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -386,6 +392,21 @@ a:hover {
     max-width: 400px;
     width: 100%;
     animation: slideIn 0.3s ease-in-out;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.popup-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.popup-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 3px;
 }
 
 .popup-content h3 {
@@ -517,4 +538,7 @@ a:hover {
     cursor: pointer;
 }
 
+.profile-container input {
+    margin: 0;
+}
 

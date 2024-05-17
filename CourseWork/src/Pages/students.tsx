@@ -11,9 +11,13 @@ export const Students = () => {
     const [subject, setSubject] = useState('');
     const [date, setDate] = useState('');
     const [grades, setGrades] = useState<any[]>([]);
+    const [absences, setAbsences] = useState<any[]>([]);
     const [editGradeId, setEditGradeId] = useState<number | null>(null);
     const [editGrade, setEditGrade] = useState('');
     const [editSubject, setEditSubject] = useState('');
+    const [editAbsenceId, setEditAbsenceId] = useState<number | null>(null);
+    const [editAbsenceSubject, setEditAbsenceSubject] = useState('');
+    const [editAbsenceDate, setEditAbsenceDate] = useState('');
 
     const filteredStudents = students.filter((student: any) =>
         student.faculty_number.includes(searchTerm)
@@ -35,6 +39,8 @@ export const Students = () => {
         setShowPopup(true);
         if (popupType === "viewGrades") {
             fetchGrades(id);
+        } else if (popupType === "viewAbsences") {
+            fetchAbsences(id);
         }
     };
 
@@ -44,8 +50,11 @@ export const Students = () => {
         setSubject('');
         setDate('');
         setGrades([]);
+        setAbsences([]);
         setEditGradeId(null);
+        setEditAbsenceId(null);
     };
+
 
     const handleGradeSubmit = async () => {
         if (currentStudentId !== null) {
@@ -73,10 +82,18 @@ export const Students = () => {
         }
     };
 
+
+
     const fetchGrades = async (id: number) => {
         const result = await fetch(`http://localhost:3000/api/grades/${id}`);
         const payload = await result.json();
         setGrades(payload);
+    };
+
+    const fetchAbsences = async (id: number) => {
+        const result = await fetch(`http://localhost:3000/api/absences/${id}`);
+        const payload = await result.json();
+        setAbsences(payload);
     };
 
     const deleteGrade = async (gradeId: number) => {
@@ -88,13 +105,22 @@ export const Students = () => {
         }
     };
 
-    const handleEditClick = (grade: any) => {
+    const deleteAbsence = async (absenceId: number) => {
+        await fetch(`http://localhost:3000/api/absences/${absenceId}`, {
+            method: "DELETE"
+        });
+        if (currentStudentId !== null) {
+            fetchAbsences(currentStudentId);
+        }
+    };
+
+    const handleEditGradeClick = (grade: any) => {
         setEditGradeId(grade.id);
         setEditGrade(grade.grade);
         setEditSubject(grade.subject);
     };
 
-    const handleSaveClick = async () => {
+    const handleSaveGradeClick = async () => {
         if (editGradeId !== null) {
             await fetch(`http://localhost:3000/api/grades/${editGradeId}`, {
                 method: "PUT",
@@ -107,6 +133,28 @@ export const Students = () => {
                 fetchGrades(currentStudentId);
             }
             setEditGradeId(null);
+        }
+    };
+
+    const handleEditAbsenceClick = (absence: any) => {
+        setEditAbsenceId(absence.id);
+        setEditAbsenceDate(absence.date);
+        setEditAbsenceSubject(absence.subject);
+    };
+
+    const handleSaveAbsenceClick = async () => {
+        if (editAbsenceId !== null) {
+            await fetch(`http://localhost:3000/api/absences/${editAbsenceId}`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ date: editAbsenceDate, subject: editAbsenceSubject })
+            });
+            if (currentStudentId !== null) {
+                fetchAbsences(currentStudentId);
+            }
+            setEditAbsenceId(null);
         }
     };
 
@@ -133,6 +181,7 @@ export const Students = () => {
                                 <button onClick={() => openPopup(student.id, 'addGrade')}>Add Grade</button>
                                 <button onClick={() => openPopup(student.id, 'viewGrades')}>View Grades</button>
                                 <button onClick={() => openPopup(student.id, 'addAbsence')}>Add Absence</button>
+                                <button onClick={() => openPopup(student.id, 'viewAbsences')}>View Absences</button>
                             </div>
                         </li>
                     ))}
@@ -183,7 +232,7 @@ export const Students = () => {
                                                 onChange={e => setEditGrade(e.target.value)}
                                             />
                                             <div className="grade-actions">
-                                                <button className="save" onClick={handleSaveClick}>Save</button>
+                                                <button className="save" onClick={handleSaveGradeClick}>Save</button>
                                                 <button className="cancel" onClick={() => setEditGradeId(null)}>Cancel</button>
                                             </div>
                                         </>
@@ -194,7 +243,7 @@ export const Students = () => {
                                                 <span className="grade-grade">{grade.grade}</span>
                                             </div>
                                             <div className="grade-actions">
-                                                <button className="edit" onClick={() => handleEditClick(grade)}>Edit</button>
+                                                <button className="edit" onClick={() => handleEditGradeClick(grade)}>Edit</button>
                                                 <button className="delete" onClick={() => deleteGrade(grade.id)}>Delete</button>
                                             </div>
                                         </>
@@ -227,6 +276,50 @@ export const Students = () => {
                             <button className="submit" onClick={handleAbsenceSubmit}>Submit Absence</button>
                             <button className="cancel" onClick={closePopup}>Cancel</button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {showPopup && currentPopup === 'viewAbsences' && (
+                <div className="popup-overlay">
+                    <div className="popup-content">
+                        <h3>Absences</h3>
+                        <ul className="absences-list">
+                            {absences.map((absence: any) => (
+                                <li key={absence.id} className="absence-item">
+                                    {editAbsenceId === absence.id ? (
+                                        <>
+                                            <input
+                                                type="date"
+                                                value={editAbsenceDate}
+                                                onChange={e => setEditAbsenceDate(e.target.value)}
+                                            />
+                                            <input
+                                                type="text"
+                                                value={editAbsenceSubject}
+                                                onChange={e => setEditAbsenceSubject(e.target.value)}
+                                            />
+                                            <div className="absence-actions">
+                                                <button className="save" onClick={handleSaveAbsenceClick}>Save</button>
+                                                <button className="cancel" onClick={() => setEditAbsenceId(null)}>Cancel</button>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="absence-details">
+                                                <span className="absence-date">{absence.date}:</span>
+                                                <span className="absence-subject">{absence.subject}</span>
+                                            </div>
+                                            <div className="absence-actions">
+                                                <button className="edit" onClick={() => handleEditAbsenceClick(absence)}>Edit</button>
+                                                <button className="delete" onClick={() => deleteAbsence(absence.id)}>Delete</button>
+                                            </div>
+                                        </>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                        <button className="cancel" onClick={closePopup}>Close</button>
                     </div>
                 </div>
             )}

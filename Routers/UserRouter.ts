@@ -78,10 +78,17 @@ const deleteTeacherHandler = async (req: Request, res: Response)=> {
     res.send(`Successfully deleted teacher: '${id}'`);
 }
 
+const editStudentGradeHandler = async (req: Request, res: Response) => {
+    const {id} = req.params;
+    await userController.editStudent(req, res, Number(id));
+    res.send(`Successfully edited student: '${req.params.id}'`)
+}
+
 userRouter.get("/api/students", getAllStudentsHandler)
 userRouter.get("/api/students/:id", getStudentHandler)
 userRouter.post("/api/students", insertStudentHandler)
 userRouter.delete("/api/students/:id", deleteStudentHandler)
+userRouter.put("/api/students/:id", editStudentGradeHandler)
 
 userRouter.get("/api/teachers", getAllTeachersHandler)
 userRouter.get("/api/teachers/:id", getTeacherHandler)
