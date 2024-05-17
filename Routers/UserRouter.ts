@@ -37,19 +37,18 @@ const getByEmailHandler = async (req: Request, res: Response) => {
         if (!user[0]) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
-        const isPasswordValid = await bcrypt.compare(password, user[0].password); // Compare hashed passwords
+        const isPasswordValid = await bcrypt.compare(password, user[0].password);
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
 
-        // Generate JWT token
-        const payload = {
-            userId: user[0].id, // Replace with your user identifier
-        };
-        const secret = "secretKey123"; // Store your secret key securely (environment variable)
-        const token = jwt.sign(payload, secret, { expiresIn: '1h' }); // Expires in 1 hour
 
-        // Login successful (send token in response)
+        const payload = {
+            userId: user[0].id,
+        };
+        const secret = "secretKey123";
+        const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+
         res.json({ message: 'Login successful!', token, user: user[0]});
 
     } catch (error) {

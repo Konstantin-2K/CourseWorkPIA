@@ -9,7 +9,6 @@ function Login() {
     const handleSubmit = async (event: any) => {
         event.preventDefault();
 
-        // Basic validation
         if (!email || !password) {
             setErrorMessage('Please enter username and password.');
             return;
