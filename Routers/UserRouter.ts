@@ -57,12 +57,29 @@ const getByEmailHandler = async (req: Request, res: Response) => {
     }
 };
 
+
 const insertStudentHandler = async (req: Request, res: Response) => {
-    await userController.insertStudent(req, res);
+    const { password, ...otherFields } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await userController.insertStudent(req , hashedPassword);
+        res.status(201).send('Successfully inserted student');
+    } catch (error) {
+        console.error('Error inserting student:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 }
 
 const insertTeacherHandler = async (req: Request, res: Response) => {
-    await userController.insertTeacher(req, res);
+    const { password, ...otherFields } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await userController.insertTeacher(req , hashedPassword);
+        res.status(201).send('Successfully inserted teacher');
+    } catch (error) {
+        console.error('Error inserting teacher:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 }
 
 const deleteStudentHandler = async (req: Request, res: Response)=> {
@@ -83,6 +100,19 @@ const editStudentGradeHandler = async (req: Request, res: Response) => {
     res.send(`Successfully edited student: '${req.params.id}'`)
 }
 
+const changePasswordHandler = async (req: Request, res: Response) => {
+    const { password } = req.body;
+    const { id } = req.params;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await userController.changePassword(Number(id), hashedPassword);
+        res.send(`Successfully changed password for user: '${id}'`);
+    } catch (error) {
+        console.error('Error changing password:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 userRouter.get("/api/students", getAllStudentsHandler)
 userRouter.get("/api/students/:id", getStudentHandler)
 userRouter.post("/api/students", insertStudentHandler)
@@ -95,3 +125,4 @@ userRouter.post("/api/teachers", insertTeacherHandler)
 userRouter.delete("/api/teachers/:id", deleteTeacherHandler)
 
 userRouter.post("/api/login", getByEmailHandler);
+userRouter.put(`/api/change-password/:id`, changePasswordHandler);

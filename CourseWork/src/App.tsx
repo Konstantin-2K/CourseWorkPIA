@@ -11,6 +11,8 @@ import Logout from "./Pages/logout.tsx";
 import Profile from "./Pages/profile.tsx";
 import {Teachers} from "./Pages/teachers.tsx";
 import {Teacher} from "./Pages/teacher.tsx";
+import {Absences} from "./Pages/absences.tsx";
+import {Grades} from "./Pages/grades.tsx";
 
 
 
@@ -30,6 +32,8 @@ function App() {
                         <Route path = {"/contacts"} element={<Contacts/>}/>
                         <Route path = {"/logout"} element={<Logout/>}/>
                         <Route path = {"/profile"} element={<Profile/>}/>
+                        <Route path = {"/absences"} element={<Absences/>}/>
+                        <Route path = {"/grades"} element={<Grades/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

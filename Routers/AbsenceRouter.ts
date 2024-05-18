@@ -6,8 +6,6 @@ export const absenceRouter = Router();
 absenceRouter.use(express.json());
 
 const absenceController = new AbsenceController();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 const getAllStudentAbsencesHandler = async (req: Request, res: Response) => {
     const {id} = req.params;

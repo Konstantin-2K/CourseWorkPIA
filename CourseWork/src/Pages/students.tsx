@@ -18,6 +18,7 @@ export const Students = () => {
     const [editAbsenceId, setEditAbsenceId] = useState<number | null>(null);
     const [editAbsenceSubject, setEditAbsenceSubject] = useState('');
     const [editAbsenceDate, setEditAbsenceDate] = useState('');
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
     const filteredStudents = students.filter((student: any) =>
         student.faculty_number.includes(searchTerm)
@@ -55,15 +56,15 @@ export const Students = () => {
         setEditAbsenceId(null);
     };
 
-
     const handleGradeSubmit = async () => {
         if (currentStudentId !== null) {
+            const currentDate = new Date().toISOString().split('T')[0];
             await fetch(`http://localhost:3000/api/grades/${currentStudentId}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ grade, subject })
+                body: JSON.stringify({ grade, subject, added_by: `${user.first_name} ${user.last_name}`, date_added: currentDate })
             });
             closePopup();
         }
@@ -71,18 +72,17 @@ export const Students = () => {
 
     const handleAbsenceSubmit = async () => {
         if (currentStudentId !== null) {
+            const currentDate = new Date().toISOString().split('T')[0];
             await fetch(`http://localhost:3000/api/absences/${currentStudentId}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ date, subject })
+                body: JSON.stringify({ date_of_absence: date, subject, date: currentDate, added_by: `${user.first_name} ${user.last_name}`})
             });
             closePopup();
         }
     };
-
-
 
     const fetchGrades = async (id: number) => {
         const result = await fetch(`http://localhost:3000/api/grades/${id}`);
@@ -122,12 +122,13 @@ export const Students = () => {
 
     const handleSaveGradeClick = async () => {
         if (editGradeId !== null) {
+            const currentDate = new Date().toISOString().split('T')[0];
             await fetch(`http://localhost:3000/api/grades/${editGradeId}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ grade: editGrade, subject: editSubject })
+                body: JSON.stringify({ grade: editGrade, date_added: currentDate, subject: editSubject, added_by: `${user.first_name} ${user.last_name}` })
             });
             if (currentStudentId !== null) {
                 fetchGrades(currentStudentId);
@@ -138,24 +139,30 @@ export const Students = () => {
 
     const handleEditAbsenceClick = (absence: any) => {
         setEditAbsenceId(absence.id);
-        setEditAbsenceDate(absence.date);
+        setEditAbsenceDate(absence.date_of_absence);
         setEditAbsenceSubject(absence.subject);
     };
 
     const handleSaveAbsenceClick = async () => {
         if (editAbsenceId !== null) {
+            const currentDate = new Date().toISOString().split('T')[0];
             await fetch(`http://localhost:3000/api/absences/${editAbsenceId}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ date: editAbsenceDate, subject: editAbsenceSubject })
+                body: JSON.stringify({date: currentDate, date_of_absence: editAbsenceDate, subject: editAbsenceSubject, added_by: `${user.first_name} ${user.last_name}`})
             });
             if (currentStudentId !== null) {
                 fetchAbsences(currentStudentId);
             }
             setEditAbsenceId(null);
         }
+    };
+
+    const formatDate = (dateString: string) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
     return (
@@ -205,8 +212,8 @@ export const Students = () => {
                             onChange={e => setSubject(e.target.value)}
                         />
                         <div className="button-group">
-                            <button className="submit" onClick={handleGradeSubmit}>Submit Grade</button>
                             <button className="cancel" onClick={closePopup}>Cancel</button>
+                            <button className="submit" onClick={handleGradeSubmit}>Submit Grade</button>
                         </div>
                     </div>
                 </div>
@@ -216,41 +223,62 @@ export const Students = () => {
                 <div className="popup-overlay">
                     <div className="popup-content">
                         <h3>Grades</h3>
-                        <ul className="grades-list">
+                        <table className="grades-table">
+                            <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Grade</th>
+                                <th>Added By</th>
+                                <th>Date Added</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             {grades.map((grade: any) => (
-                                <li key={grade.id} className="grade-item">
+                                <tr key={grade.id} className="grade-item">
                                     {editGradeId === grade.id ? (
                                         <>
-                                            <input
-                                                type="text"
-                                                value={editSubject}
-                                                onChange={e => setEditSubject(e.target.value)}
-                                            />
-                                            <input
-                                                type="text"
-                                                value={editGrade}
-                                                onChange={e => setEditGrade(e.target.value)}
-                                            />
-                                            <div className="grade-actions">
-                                                <button className="save" onClick={handleSaveGradeClick}>Save</button>
-                                                <button className="cancel" onClick={() => setEditGradeId(null)}>Cancel</button>
-                                            </div>
+                                            <td>
+                                                <input
+                                                    type="text"
+                                                    value={editSubject}
+                                                    onChange={e => setEditSubject(e.target.value)}
+                                                />
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="text"
+                                                    value={editGrade}
+                                                    onChange={e => setEditGrade(e.target.value)}
+                                                />
+                                            </td>
+                                            <td>{grade.added_by}</td>
+                                            <td>{formatDate(grade.date_added)}</td>
+                                            <td>
+                                                <div className="grade-actions">
+                                                    <button className="save" onClick={handleSaveGradeClick}>Save</button>
+                                                    <button className="cancel" onClick={() => setEditGradeId(null)}>Cancel</button>
+                                                </div>
+                                            </td>
                                         </>
                                     ) : (
                                         <>
-                                            <div className="grade-details">
-                                                <span className="grade-subject">{grade.subject}:</span>
-                                                <span className="grade-grade">{grade.grade}</span>
-                                            </div>
-                                            <div className="grade-actions">
-                                                <button className="edit" onClick={() => handleEditGradeClick(grade)}>Edit</button>
-                                                <button className="delete" onClick={() => deleteGrade(grade.id)}>Delete</button>
-                                            </div>
+                                            <td>{grade.subject}</td>
+                                            <td>{grade.grade}</td>
+                                            <td>{grade.added_by}</td>
+                                            <td>{formatDate(grade.date_added)}</td>
+                                            <td>
+                                                <div className="grade-actions">
+                                                    <button className="editButton" onClick={() => handleEditGradeClick(grade)}>Edit</button>
+                                                    <button className="delButton" onClick={() => deleteGrade(grade.id)}>Delete</button>
+                                                </div>
+                                            </td>
                                         </>
                                     )}
-                                </li>
+                                </tr>
                             ))}
-                        </ul>
+                            </tbody>
+                        </table>
                         <button className="cancel" onClick={closePopup}>Close</button>
                     </div>
                 </div>
@@ -273,8 +301,8 @@ export const Students = () => {
                             onChange={e => setSubject(e.target.value)}
                         />
                         <div className="button-group">
-                            <button className="submit" onClick={handleAbsenceSubmit}>Submit Absence</button>
                             <button className="cancel" onClick={closePopup}>Cancel</button>
+                            <button className="submit" onClick={handleAbsenceSubmit}>Submit Absence</button>
                         </div>
                     </div>
                 </div>
@@ -284,41 +312,69 @@ export const Students = () => {
                 <div className="popup-overlay">
                     <div className="popup-content">
                         <h3>Absences</h3>
-                        <ul className="absences-list">
+                        <table className="absences-table">
+                            <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Date of Absence</th>
+                                <th>Date added</th>
+                                <th>Added By</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             {absences.map((absence: any) => (
-                                <li key={absence.id} className="absence-item">
+                                <tr key={absence.id} className="absence-item">
                                     {editAbsenceId === absence.id ? (
                                         <>
-                                            <input
-                                                type="date"
-                                                value={editAbsenceDate}
-                                                onChange={e => setEditAbsenceDate(e.target.value)}
-                                            />
-                                            <input
-                                                type="text"
-                                                value={editAbsenceSubject}
-                                                onChange={e => setEditAbsenceSubject(e.target.value)}
-                                            />
-                                            <div className="absence-actions">
-                                                <button className="save" onClick={handleSaveAbsenceClick}>Save</button>
-                                                <button className="cancel" onClick={() => setEditAbsenceId(null)}>Cancel</button>
-                                            </div>
+                                            <td>
+                                                <input
+                                                    type="text"
+                                                    value={editAbsenceSubject}
+                                                    onChange={e => setEditAbsenceSubject(e.target.value)}
+                                                />
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="date"
+                                                    value={editAbsenceDate}
+                                                    onChange={e => setEditAbsenceDate(e.target.value)}
+                                                />
+                                            </td>
+                                            <td>{formatDate(absence.date)}</td>
+                                            <td>{absence.added_by}</td>
+                                            <td>
+                                                <div className="absence-actions">
+                                                    <button className="save" onClick={handleSaveAbsenceClick}>Save
+                                                    </button>
+                                                    <button className="cancel"
+                                                            onClick={() => setEditAbsenceId(null)}>Cancel
+                                                    </button>
+                                                </div>
+                                            </td>
                                         </>
                                     ) : (
                                         <>
-                                            <div className="absence-details">
-                                                <span className="absence-date">{absence.date}:</span>
-                                                <span className="absence-subject">{absence.subject}</span>
-                                            </div>
-                                            <div className="absence-actions">
-                                                <button className="edit" onClick={() => handleEditAbsenceClick(absence)}>Edit</button>
-                                                <button className="delete" onClick={() => deleteAbsence(absence.id)}>Delete</button>
-                                            </div>
+                                            <td>{absence.subject}</td>
+                                            <td>{formatDate(absence.date_of_absence)}</td>
+                                            <td>{formatDate(absence.date)}</td>
+                                            <td>{absence.added_by}</td>
+                                            <td>
+                                                <div className="absence-actions">
+                                                    <button className="editButton"
+                                                            onClick={() => handleEditAbsenceClick(absence)}>Edit
+                                                    </button>
+                                                    <button className="delButton"
+                                                            onClick={() => deleteAbsence(absence.id)}>Delete
+                                                    </button>
+                                                </div>
+                                            </td>
                                         </>
                                     )}
-                                </li>
+                                </tr>
                             ))}
-                        </ul>
+                            </tbody>
+                        </table>
                         <button className="cancel" onClick={closePopup}>Close</button>
                     </div>
                 </div>

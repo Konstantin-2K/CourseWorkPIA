@@ -29,25 +29,27 @@ export class UserController {
         return await this.userModel.getByEmail(email);
     }
 
-    async insertStudent(req: Request, res: Response) {
-        const userToInsert = await this.userModel.insertStudent(req.body);
-        res.send(`Successfully inserted student: '${req.body.faculty_number}'`);
+    async insertStudent(req: Request, password: string) {
+        await this.userModel.insertStudent(req.body, password);
     }
 
-    async insertTeacher(req: Request, res: Response) {
-        const userToInsert = await this.userModel.insertTeacher(req.body);
-        res.send(`Successfully inserted teacher: '${req.body.teacher_number}'`);
+    async insertTeacher(req: Request, password: string) {
+        await this.userModel.insertTeacher(req.body, password);
     }
 
     async deleteStudent(id: number) {
-        const userToDelete = await this.userModel.deleteStudent(id);
+        await this.userModel.deleteStudent(id);
     }
 
     async deleteTeacher(id: number) {
-        const userToDelete = await this.userModel.deleteTeacher(id);
+        await this.userModel.deleteTeacher(id);
     }
 
     async editStudent(req: Request, res: Response, id: number) {
         await this.userModel.editStudent(req.body, id);
+    }
+
+    async changePassword(id: number, password: string ) {
+        await this.userModel.changePassword(id, password);
     }
 }

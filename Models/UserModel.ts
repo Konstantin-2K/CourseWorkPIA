@@ -38,7 +38,7 @@ export class UserModel extends DB {
         return rows;
     }
 
-    async insertStudent(body: any) {
+    async insertStudent(body: any, password: string) {
         const data = body;
         const facultyNumber = data.faculty_number;
         const yearEnrolled = data.year_enrolled;
@@ -53,7 +53,6 @@ export class UserModel extends DB {
         const specialty = data.specialty;
         const lastName = data.last_name;
         const givenName = data.given_name;
-        const password = data.password;
         const role = data.role;
 
         const [rows] = await this.connection.query(`INSERT INTO users VALUES(NULL, '${facultyNumber}', '${yearEnrolled}', '${PIN}', '${gender}', '${birthDate}',
@@ -61,7 +60,7 @@ export class UserModel extends DB {
         return rows;
     }
 
-    async insertTeacher(body: any) {
+    async insertTeacher(body: any, password: string) {
         const data = body;
         const PIN = data.personal_identification_number;
         const gender = data.gender;
@@ -72,7 +71,6 @@ export class UserModel extends DB {
         const address = data.address;
         const lastName = data.last_name;
         const givenName = data.given_name;
-        const password = data.password;
         const role = data.role;
         const teacherNumber = data.teacher_number;
 
@@ -81,7 +79,7 @@ export class UserModel extends DB {
         return rows;
     }
 
-    async editStudent(body:any, id:number) {
+    async editStudent(body: any, id: number) {
         const data = body;
         const facultyNumber = data.faculty_number;
         const yearEnrolled = data.year_enrolled;
@@ -115,4 +113,10 @@ export class UserModel extends DB {
         id = '${id}';`)
         return rows;
     }
+
+    async changePassword(id: number, password: string) {
+        const [rows] = await this.connection.query(`UPDATE users SET password = '${password}' WHERE id = '${id}'`);
+        return rows;
+    }
+
 }

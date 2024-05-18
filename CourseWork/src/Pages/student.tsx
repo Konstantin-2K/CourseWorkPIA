@@ -197,11 +197,11 @@ export const Student = () => {
                         )}</span>
                     </div>
                     {(user.role == "ADMIN") &&
-                        <button className="delButton" onClick={() => deleteStudent(student.id)}>Delete student</button>}
+                        <button className="delButtonUser" onClick={() => deleteStudent(student.id)}>Delete student</button>}
                     {(user.role === "ADMIN") && editable &&
                         <button className="saveButton" onClick={handleSaveClick}>Save</button>}
                     {(user.role === "ADMIN" && !editable) &&
-                        <button className="editButton" onClick={handleEditClick}>Edit</button>}
+                        <button className="editButtonUser" onClick={handleEditClick}>Edit</button>}
                 </div>
             </div>
         </>

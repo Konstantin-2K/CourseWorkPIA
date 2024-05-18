@@ -64,7 +64,7 @@ export const Teacher = () => {
                         <label>Specialty:</label>
                         <span>{teacher.specialty}</span>
                     </div>
-                    <button className="delButton" onClick={() => deleteTeacher(teacher.id)}>Delete teacher</button>
+                    <button className="delButtonUser" onClick={() => deleteTeacher(teacher.id)}>Delete teacher</button>
                 </div>
             </div>
         </>
