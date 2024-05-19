@@ -1,0 +1,64 @@
+INSERT INTO users (personal_identification_number, gender, birth_date, phone_number, first_name, email, address, degree, specialty, last_name, given_name, password, role, teacher_number)
+VALUES
+    ('1234567894', 'Female', '1980-08-20', '987-654-3211', 'Sarah', 'sarahasd@example.com', '456 Pine St', 'M.Sc.', 'Chemistry', 'Johnson', 'Sarah', '$2a$10$heg9TgSyt5zbNGDjrltm8etbfjggA4k/bGA6l5hFkLGB912fdorOS', 'TEACHER', 'T123457'),
+    ('1234567895', 'Male', '1978-10-25', '987-654-3212', 'Michael', 'michaelasd@example.com', '789 Cedar St', 'M.A.', 'History', 'Smith', 'Michael', '$2a$10$heg9TgSyt5zbNGDjrltm8etbfjggA4k/bGA6l5hFkLGB912fdorOS', 'TEACHER', 'T123458'),
+	('1234567896', 'Male', '1985-05-15', '987-654-3213', 'John', 'john@example.com', '123 Maple St', 'Ph.D.', 'Computer Science', 'Doe', 'John', '$2a$10$heg9TgSyt5zbNGDjrltm8etbfjggA4k/bGA6l5hFkLGB912fdorOS', 'TEACHER', 'T123459'),
+    ('1234567897', 'Female', '1990-12-10', '987-654-3214', 'Emily', 'emilydoe@example.com', '789 Birch St', 'M.A.', 'Psychology', 'Doe', 'Emily', '$2a$10$heg9TgSyt5zbNGDjrltm8etbfjggA4k/bGA6l5hFkLGB912fdorOS', 'TEACHER', 'T123460');
+
+
+INSERT INTO users (faculty_number, year_enrolled, personal_identification_number, gender, birth_date, phone_number, first_name, email, address, degree, specialty, last_name, given_name, password, role)
+VALUES
+    ('F123457', '2022', '12345167891', 'Male', '2000-01-02', '123-456-7891', 'Michael', 'michael@example.com', '456 Oak St', 'B.Sc.', 'Mathematics', 'Smith', 'Michael', '$2a$10$heg9TgSyt5zbNGDjrltm8etbfjggA4k/bGA6l5hFkLGB912fdorOS', 'STUDENT'),
+    ('F123458', '2022', '12341567892', 'Female', '2000-01-03', '123-456-7892', 'Emily', 'emily@example.com', '789 Elm St', 'B.A.', 'English Literature', 'Johnson', 'Emily', '$2a$10$heg9TgSyt5zbNGDjrltm8etbfjggA4k/bGA6l5hFkLGB912fdorOS', 'STUDENT'),
+	('F123459', '2022', '12345617893', 'Male', '2000-01-04', '123-456-7893', 'Chris', 'chris@example.com', '456 Walnut St', 'B.Sc.', 'Physics', 'Doe', 'Chris', '$2a$10$heg9TgSyt5zbNGDjrltm8etbfjggA4k/bGA6l5hFkLGB912fdorOS', 'STUDENT'),
+    ('F123460', '2022', '12341567894', 'Female', '2000-01-05', '123-456-7894', 'Sophia', 'sophia@example.com', '789 Pine St', 'B.A.', 'Sociology', 'Doe', 'Sophia', '$2a$10$heg9TgSyt5zbNGDjrltm8etbfjggA4k/bGA6l5hFkLGB912fdorOS', 'STUDENT');
+
+
+INSERT INTO grades (student_id, grade, subject, added_by, date_added)
+VALUES
+    ('47', '4', 'MATH', 'T123457', CURRENT_DATE),
+    ('47', '3', 'PHYSICS', 'T123457', CURRENT_DATE),
+    ('47', '5', 'BIO', 'T123457', CURRENT_DATE),
+    ('47', '6', 'ENGLISH', 'T123457', CURRENT_DATE),
+    ('47', '2', 'CHEMISTRY', 'T123457', CURRENT_DATE);
+
+INSERT INTO grades (student_id, grade, subject, added_by, date_added)
+VALUES
+    ('48', '3', 'MATH', 'T123458', CURRENT_DATE),
+    ('48', '4', 'PHYSICS', 'T123458', CURRENT_DATE),
+    ('48', '5', 'BIO', 'T123458', CURRENT_DATE),
+    ('48', '6', 'ENGLISH', 'T123458', CURRENT_DATE),
+    ('48', '4', 'CHEMISTRY', 'T123458', CURRENT_DATE);
+
+INSERT INTO grades (student_id, grade, subject, added_by, date_added)
+VALUES
+    ('49', '5', 'MATH', 'T123459', CURRENT_DATE),
+    ('49', '4', 'PHYSICS', 'T123459', CURRENT_DATE),
+    ('49', '3', 'BIO', 'T123459', CURRENT_DATE),
+    ('49', '6', 'ENGLISH', 'T123459', CURRENT_DATE),
+    ('49', '5', 'CHEMISTRY', 'T123459', CURRENT_DATE);
+
+INSERT INTO absences (student_id, date, subject, date_of_absence, added_by)
+VALUES
+    ('47', '2024-05-19', 'MATH', '2024-05-19', 'T123457'),
+    ('47', '2024-05-18', 'PHYSICS', '2024-05-18', 'T123457'),
+    ('47', '2024-05-17', 'BIO', '2024-05-17', 'T123457'),
+    ('47', '2024-05-16', 'ENGLISH', '2024-05-16', 'T123457'),
+    ('47', '2024-05-15', 'CHEMISTRY', '2024-05-15', 'T123457');
+
+INSERT INTO absences (student_id, date, subject, date_of_absence, added_by)
+VALUES
+    ('48', '2024-05-19', 'MATH', '2024-05-19', 'T123458'),
+    ('48', '2024-05-18', 'PHYSICS', '2024-05-18', 'T123458'),
+    ('48', '2024-05-17', 'BIO', '2024-05-17', 'T123458'),
+    ('48', '2024-05-16', 'ENGLISH', '2024-05-16', 'T123458'),
+    ('48', '2024-05-15', 'CHEMISTRY', '2024-05-15', 'T123458');
+
+
+INSERT INTO absences (student_id, date, subject, date_of_absence, added_by)
+VALUES
+    ('49', '2024-05-19', 'MATH', '2024-05-19', 'T123459'),
+    ('49', '2024-05-18', 'PHYSICS', '2024-05-18', 'T123459'),
+    ('49', '2024-05-17', 'BIO', '2024-05-17', 'T123459'),
+    ('49', '2024-05-16', 'ENGLISH', '2024-05-16', 'T123459'),
+    ('49', '2024-05-15', 'CHEMISTRY', '2024-05-15', 'T123459');
