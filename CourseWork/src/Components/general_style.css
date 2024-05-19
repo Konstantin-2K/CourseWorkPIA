@@ -99,6 +99,10 @@ nav a:hover {
     height: 76.2vh;
 }
 
+.main {
+    height: 79.9vh;
+}
+
 h1 {
     font-size: 2rem;
     margin-bottom: 1rem;
@@ -111,7 +115,8 @@ p {
 
 .info-sections {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
     margin-top: 2rem;
 }
@@ -121,7 +126,8 @@ p {
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
-    width: 45%;
+    width: 40%;
+    margin: 20px;
 }
 
 .info-section h2 {
@@ -330,7 +336,7 @@ span::selection {
 }
 
 .useful-numbers h3,
-.useful-links h3{
+.useful-links h3 {
     margin-bottom: 10px;
 }
 
@@ -369,18 +375,31 @@ a:hover {
     display: inline-block;
 }
 
-.delButtonUser {
+.delButtonStudent,
+.delButtonTeacher {
     height: 36px;
-    margin-top: 23px;
+    margin-top: 10px;
+    background-color: #f44336;
 }
 
-.editButtonUser {
+.saveButton {
     height: 36px;
     margin-top: 10px;
 }
 
+.editButtonStudent,
+.editButtonTeacher {
+    height: 36px;
+    margin-top: 10px;
+}
+
+.editButtonProfile {
+    height: 36px;
+    margin-top: 23px;
+}
+
 .editButton {
-    margin: 0 0 0 0;
+    margin: 0;
 }
 
 .delButton, .cancel {
@@ -473,6 +492,22 @@ a:hover {
     color: white;
 }
 
+.add .inputCancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex button {
+    height: 38px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 .popup-content ul {
     list-style-type: none;
     padding: 0;
@@ -554,7 +589,7 @@ a:hover {
     justify-content: center;
 }
 
-.grade-actions .absence-actions button {
+.grade-actions button, .absence-actions button {
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
@@ -578,6 +613,10 @@ table {
     margin-bottom: 20px;
 }
 
+.table-container {
+    margin-top: 20px;
+}
+
 th, td {
     border: 1px solid #ddd;
     padding: 12px;
@@ -599,4 +638,59 @@ tbody tr:hover {
 
 td {
     color: #555;
+}
+
+.password input {
+    margin-bottom: 10px;
+}
+
+.invisible {
+    visibility: hidden
+}
+
+.add input {
+    margin-bottom: 10px;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 83.1vh;
+}
+
+.login-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(17, 72, 61);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
 }

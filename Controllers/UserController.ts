@@ -49,6 +49,10 @@ export class UserController {
         await this.userModel.editStudent(req.body, id);
     }
 
+    async editTeacher(req: Request, res: Response, id: number) {
+        await this.userModel.editTeacher(req.body, id);
+    }
+
     async changePassword(id: number, password: string ) {
         await this.userModel.changePassword(id, password);
     }

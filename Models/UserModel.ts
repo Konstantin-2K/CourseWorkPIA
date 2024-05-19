@@ -114,6 +114,39 @@ export class UserModel extends DB {
         return rows;
     }
 
+    async editTeacher(body: any, id: number) {
+        const data = body;
+        const teacherNumber = data.teacher_number;
+        const PIN = data.personal_identification_number;
+        const gender = data.gender;
+        const birthDate = data.birth_date;
+        const phoneNumber = data.phone_number;
+        const firstName = data.first_name;
+        const email = data.email;
+        const address = data.address;
+        const degree = data.degree;
+        const specialty = data.specialty;
+        const lastName = data.last_name;
+        const givenName = data.given_name;
+        const [rows] = await this.connection.query(`UPDATE users 
+    SET 
+        personal_identification_number = '${PIN}',
+        teacher_number = '${teacherNumber}',
+        gender = '${gender}',
+        birth_date = '${birthDate}',
+        phone_number = '${phoneNumber}',
+        first_name = '${firstName}',
+        email = '${email}',
+        address = '${address}',
+        degree = '${degree}',
+        specialty = '${specialty}',
+        last_name = '${lastName}',
+        given_name = '${givenName}'
+    WHERE 
+        id = '${id}';`)
+        return rows;
+    }
+
     async changePassword(id: number, password: string) {
         const [rows] = await this.connection.query(`UPDATE users SET password = '${password}' WHERE id = '${id}'`);
         return rows;

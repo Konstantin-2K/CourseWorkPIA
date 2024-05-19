@@ -57,7 +57,6 @@ const getByEmailHandler = async (req: Request, res: Response) => {
     }
 };
 
-
 const insertStudentHandler = async (req: Request, res: Response) => {
     const { password, ...otherFields } = req.body;
     try {
@@ -94,10 +93,16 @@ const deleteTeacherHandler = async (req: Request, res: Response)=> {
     res.send(`Successfully deleted teacher: '${id}'`);
 }
 
-const editStudentGradeHandler = async (req: Request, res: Response) => {
+const editStudentHandler = async (req: Request, res: Response) => {
     const {id} = req.params;
     await userController.editStudent(req, res, Number(id));
     res.send(`Successfully edited student: '${req.params.id}'`)
+}
+
+const editTeacherHandler = async (req: Request, res: Response) => {
+    const {id} = req.params;
+    await userController.editTeacher(req, res, Number(id));
+    res.send(`Successfully edited teacher: '${req.params.id}'`)
 }
 
 const changePasswordHandler = async (req: Request, res: Response) => {
@@ -117,12 +122,13 @@ userRouter.get("/api/students", getAllStudentsHandler)
 userRouter.get("/api/students/:id", getStudentHandler)
 userRouter.post("/api/students", insertStudentHandler)
 userRouter.delete("/api/students/:id", deleteStudentHandler)
-userRouter.put("/api/students/:id", editStudentGradeHandler)
+userRouter.put("/api/students/:id", editStudentHandler)
 
 userRouter.get("/api/teachers", getAllTeachersHandler)
 userRouter.get("/api/teachers/:id", getTeacherHandler)
 userRouter.post("/api/teachers", insertTeacherHandler)
 userRouter.delete("/api/teachers/:id", deleteTeacherHandler)
+userRouter.put("/api/teachers/:id", editTeacherHandler)
 
 userRouter.post("/api/login", getByEmailHandler);
 userRouter.put(`/api/change-password/:id`, changePasswordHandler);

@@ -37,6 +37,7 @@ function Profile() {
 
     return (
         <>
+            <div className="main">
             <div className="profile-container">
                 <h2>Personal information</h2>
                 <div className="profile-info">
@@ -98,13 +99,13 @@ function Profile() {
                             <span>{user.specialty}</span>
                         </div>
                     )}
-                    <button className="delButton" onClick={openPopup}>Change password</button>
+                    <button className="editButtonProfile" onClick={openPopup}>Change password</button>
                 </div>
             </div>
 
             {showPopup && (
                 <div className="popup-overlay">
-                    <div className="popup-content">
+                    <div className="popup-content password add">
                         <h3>Change Password</h3>
                         <input
                             type={showPassword ? "text" : "password"}
@@ -127,12 +128,13 @@ function Profile() {
                             <label>Show Password</label>
                         </div>
                         <div className="button-group">
+                            <button className="inputCancel" onClick={closePopup}>Close</button>
                             <button className="submit" onClick={handleChangePassword}>Change Password</button>
-                            <button className="cancel" onClick={closePopup}>Close</button>
                         </div>
                     </div>
                 </div>
             )}
+            </div>
         </>
     );
 }
